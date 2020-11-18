@@ -44,7 +44,7 @@ $rickpick->setAge('21');
 }
 
 /**
- * @Route("/RickPick/{id}", name="rickpick_show")
+ * @Route("/RickPick/{id}", name="show_product")
  */
 public function show($id)
 {
@@ -66,7 +66,7 @@ public function show($id)
 }
 
 /**
- * @Route("/RickPick/edit/{id}")
+ * @Route("/RickPick/edit/{id}", name="edit_product")
  */
 public function update($id)
 {
@@ -88,7 +88,7 @@ public function update($id)
 }
 
 /**
- * @Route("/RickPick/delete/{id}")
+ * @Route("/RickPick/delete/{id}", name="delete_product")
  */
 public function del($id)
 {
@@ -102,6 +102,13 @@ public function del($id)
     
 }
 
-
+ /**
+ *@Route("/RickPick-list", name="list_product")
+ */
+ public function showAll()
+ {
+ 	$rickpick = $this->getDoctrine() ->getRepository(RickPick::class)->findAll();
+ 	return $this->render('rick_pick/list.html.twig',['rickpicks'=>$rickpick,]);
+ }
 
 }
