@@ -87,7 +87,20 @@ public function update($id)
     ]);
 }
 
+/**
+ * @Route("/RickPick/delete/{id}")
+ */
+public function del($id)
+{
+    $entityManager = $this->getDoctrine()->getManager();
+    $rickpick = $entityManager->getRepository(RickPick::class)->find($id);
 
+    $entityManager->remove($rickpick);
+    $entityManager->flush();
+	
+	return new Response ('Deteleted Rick with id ' . $id);
+    
+}
 
 
 
