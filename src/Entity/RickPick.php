@@ -31,7 +31,12 @@ class RickPick
      * @ORM\Column(type="integer")
      */
     private $Age;
-
+	
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\RogerCity", inversedBy="RickPick")
+    */
+    private $RogerCity;
+	
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class RickPick
     public function setAge(int $Age): self
     {
         $this->Age = $Age;
+
+        return $this;
+    }
+
+    public function getRogerCity(): ?RogerCity
+    {
+        return $this->RogerCity;
+    }
+
+    public function setRogerCity(?RogerCity $RogerCity): self
+    {
+        $this->RogerCity = $RogerCity;
 
         return $this;
     }

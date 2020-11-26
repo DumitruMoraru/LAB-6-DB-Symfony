@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Theatre{% endblock %}
+
+{% block body %}
+    <center><h1>Theatre City</h1></center>
+</br></br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th><h3>Id</h3></th>
+                <th><h2>City</h2></th>
+                <th><h2>Population</h2></th>
+                <th><h3>Manipulation</h3></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for roger_city in roger_cities %}
+            <tr>
+                <td>{{ roger_city.id }}</td>
+                <td>{{ roger_city.Name }}</td>
+                <td>{{ roger_city.Population }}</td>
+                <td>
+                    <p><a href="{{ path('roger_city_show', {'id': roger_city.id}) }}">Show</a>
+                     | 
+                    <a href="{{ path('roger_city_edit', {'id': roger_city.id}) }}">Edit</a></p>
+                </td>
+            </tr>
+
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  <hr>
+  </br></br>
+    <a href="{{ path('roger_city_new') }}"><center><h3>Add New</h3></center></a>
+{% endblock %}

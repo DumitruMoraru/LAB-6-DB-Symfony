@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Theatre{% endblock %}
+
+{% block body %}
+ <center><h1>Theatre Spectacle - Show</h1></center>
+</br></br>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th><h3>Id</h3></th>
+                <td><h3>{{ rick_pick.id }}</td>
+            </tr>
+            <tr>
+                <th><h3>Name</h3></th>
+                <td><h3>{{ rick_pick.Name }}</td>
+            </tr>
+            <tr>
+                <th><h3>Adress</h3></th>
+                <td><h3>{{ rick_pick.Adress }}</td>
+            </tr>
+            <tr>
+                <th><h3>Age</h3></th>
+                <td><h3>{{ rick_pick.Age }}</td>
+            </tr>
+
+            <tr>
+                <th><h3>City</h3></th>
+                <td><h3>{{ rick_pick.rogercity }}</h3></td>
+            </tr>
+        </tbody>
+    </table>
+<hr>
+  </br></br>
+
+    <h3 style="color: #6b5b95;"><center><a href="{{ path('rick_pick_index') }}">List</a></center></h3>
+
+    </br>
+    <h3 style="color: #6b5b95;"><center><a href="{{ path('rick_pick_edit', {'id': rick_pick.id}) }}">Edit</a></center></h3>
+</br>
+   <center> {{ include('rick_pick/_delete_form.html.twig') }}</center>
+{% endblock %}

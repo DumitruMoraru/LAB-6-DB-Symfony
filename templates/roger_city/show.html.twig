@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Theatre{% endblock %}
+
+{% block body %}
+ <center><h1>Theatre City - Show</h1></center>
+</br></br>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th><h3>Id</h3></th>
+                <td><h3>{{ roger_city.id }}</h3></td>
+            </tr>
+            <tr>
+                <th><h3>Name</h3></th>
+                <td><h3>{{ roger_city.Name }}</h3></td>
+            </tr>
+            <tr>
+                <th><h3>Population</h3></th>
+                <td><h3>{{ roger_city.Population }}</h3></td>
+            </tr>
+        </tbody>
+    </table>
+  <hr>
+  </br></br>
+    <h3 style="color: #6b5b95;"><center><a href="{{ path('roger_city_index') }}">List</a></center></h3>
+</br>
+    <h3 style="color: #6b5b95;"><center><a href="{{ path('roger_city_edit', {'id': roger_city.id}) }}">Edit</a></center></h3>
+</br>
+     <center>{{ include('roger_city/_delete_form.html.twig') }} </center>
+{% endblock %}

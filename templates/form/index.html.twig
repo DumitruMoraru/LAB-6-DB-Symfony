@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+ <center><h1>Theatre City</h1></center></br>
+ <center><h3>Add New Spectacle</h3></center>
+</br></br>
+
+<div style="font-size: 17px;">
+{{ form_start(rickpick_form,{'id':'id_rickpick'}) }}
+{{ form(rickpick_form) }}
+{{ form_end(rickpick_form) }}
+</div>
+
+{% endblock %}

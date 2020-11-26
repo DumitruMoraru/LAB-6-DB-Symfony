@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Theatre{% endblock %}
+
+{% block body %}
+ <center><h1>Theatre City - Edit</h1></center>
+    
+{% for message in app.flashes('info2') %}
+    	<div class="alert alert-warning">
+   			 {{message}}
+    	</div>
+
+    {% endfor%}
+   {{ include('roger_city/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <h3 style="color: #6b5b95;"><center><a href="{{ path('roger_city_index') }}">List</a></center></h3>
+
+     <center>{{ include('roger_city/_delete_form.html.twig') }} </center>
+{% endblock %}

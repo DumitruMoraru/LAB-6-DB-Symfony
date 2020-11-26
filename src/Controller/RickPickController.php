@@ -2,113 +2,93 @@
 
 namespace App\Controller;
 
+use App\Entity\RickPick;
+use App\Form\RickPick1Type;
+use App\Repository\RickPickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use App\Entity\RickPick;
 
+/**
+ * @Route("/rick/pick")
+ */
 class RickPickController extends AbstractController
 {
-	
-
-	
-	
     /**
-     * @Route("/RickPick", name="create_product")
+     * @Route("/", name="rick_pick_index", methods={"GET"})
      */
-	
-	 public function createRickPick(ValidatorInterface $validator): Response
+    public function index(RickPickRepository $rickPickRepository): Response
     {
-		$entityManager = $this->getDoctrine()->getManager();
-		
-        $rickpick = new RickPick();
-        // This will trigger an error: the column isn't nullable in the database
-        $rickpick->setName('Ciki Pauki');
-        // This will trigger a type mismatch error: an integer is expected
-        $rickpick->setAdress('31 August 3/1');
-$rickpick->setAge('21');
-        // ...
-		
-       $entityManager->persist($rickpick);
+        return $this->render('rick_pick/index.html.twig', [
+            'rick_picks' => $rickPickRepository->findAll(),
+        ]);
+    }
 
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
+    /**
+     * @Route("/new", name="rick_pick_new", methods={"GET","POST"})
+     */
+    public function new(Request $request): Response
+    {
+        $rickPick = new RickPick();
+        $form = $this->createForm(RickPick1Type::class, $rickPick);
+        $form->handleRequest($request);
 
-        return new Response('Saved new product with id '.$rickpick->getId());		
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($rickPick);
+            $entityManager->flush();
 
-        $errors = $validator->validate($rickpick);
-        if (count($errors) > 0) {
-            return new Response((string) $errors, 400);
+            return $this->redirectToRoute('rick_pick_index');
         }
-}
 
-/**
- * @Route("/RickPick/{id}", name="show_product")
- */
-public function show($id)
-{
-    $rickpick = $this->getDoctrine()
-        ->getRepository(RickPick::class)
-        ->find($id);
-
-    if (!$rickpick) {
-        throw $this->createNotFoundException(
-            'No product found for id '.$id
-        );
+        return $this->render('rick_pick/new.html.twig', [
+            'rick_pick' => $rickPick,
+            'form' => $form->createView(),
+        ]);
     }
 
-    return new Response('Check out this great product: '.$rickpick->getName());
-
-    // or render a template
-    // in the template, print things with {{ product.name }}
-    // return $this->render('product/show.html.twig', ['product' => $product]);
-}
-
-/**
- * @Route("/RickPick/edit/{id}", name="edit_product")
- */
-public function update($id)
-{
-    $entityManager = $this->getDoctrine()->getManager();
-    $rickpick = $entityManager->getRepository(RickPick::class)->find($id);
-
-    if (!$rickpick) {
-        throw $this->createNotFoundException(
-            'No product found for id '.$id
-        );
+    /**
+     * @Route("/{id}", name="rick_pick_show", methods={"GET"})
+     */
+    public function show(RickPick $rickPick): Response
+    {
+        return $this->render('rick_pick/show.html.twig', [
+            'rick_pick' => $rickPick,
+        ]);
     }
 
-    $rickpick->setName('Ciki Pauki');
-    $entityManager->flush();
+    /**
+     * @Route("/{id}/edit", name="rick_pick_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, RickPick $rickPick): Response
+    {
+        $form = $this->createForm(RickPick1Type::class, $rickPick);
+        $form->handleRequest($request);
 
-    return $this->redirectToRoute('rickpick_show', [
-        'id' => $rickpick->getId()
-    ]);
-}
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
 
-/**
- * @Route("/RickPick/delete/{id}", name="delete_product")
- */
-public function del($id)
-{
-    $entityManager = $this->getDoctrine()->getManager();
-    $rickpick = $entityManager->getRepository(RickPick::class)->find($id);
+            return $this->redirectToRoute('rick_pick_index');
+        }
 
-    $entityManager->remove($rickpick);
-    $entityManager->flush();
-	
-	return new Response ('Deteleted Rick with id ' . $id);
-    
-}
+        return $this->render('rick_pick/edit.html.twig', [
+            'rick_pick' => $rickPick,
+            'form' => $form->createView(),
+        ]);
+    }
 
- /**
- *@Route("/RickPick-list", name="list_product")
- */
- public function showAll()
- {
- 	$rickpick = $this->getDoctrine() ->getRepository(RickPick::class)->findAll();
- 	return $this->render('rick_pick/list.html.twig',['rickpicks'=>$rickpick,]);
- }
+    /**
+     * @Route("/{id}", name="rick_pick_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, RickPick $rickPick): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$rickPick->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($rickPick);
+            $entityManager->flush();
+        }
 
+        return $this->redirectToRoute('rick_pick_index');
+    }
 }

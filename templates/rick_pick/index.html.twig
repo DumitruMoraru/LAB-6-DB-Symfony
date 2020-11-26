@@ -1,20 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RickPickController!{% endblock %}
+{% block title %}Theatre{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'E:/University/ComposerSetup/proiect/src/Controller/RickPickController.php'|file_link(0) }}">src/Controller/RickPickController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'E:/University/ComposerSetup/proiect/templates/rick_pick/index.html.twig'|file_link(0) }}">templates/rick_pick/index.html.twig</a></code></li>
-    </ul>
-</div>
+   <center><h1>Theatre Spectacle</h1></center>
+</br></br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th><h3>Id</h3></th>
+                <th><h2>Name</h2></th>
+                <th><h2>Adress</h2></th>
+                <th><h2>Age+</h2></th>
+                <th><h2>City</h2></th>
+                <th><h3>actions</h3></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rick_pick in rick_picks %}
+            <tr>
+                <td>{{ rick_pick.id }}</td>
+                <td>{{ rick_pick.Name }}</td>
+                <td>{{ rick_pick.Adress }}</td>
+                <td>{{ rick_pick.Age }}</td>
+                <td>{{ rick_pick.rogercity }}</td>
+                <td>
+                    <p><a href="{{ path('rick_pick_show', {'id': rick_pick.id}) }}">Show</a> |
+                    <a href="{{ path('rick_pick_edit', {'id': rick_pick.id}) }}">Edit</a></p>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ <hr>
+  </br></br>
+    <a href="{{ path('rick_pick_new') }}"><center><h3>Add New</h3></center></a>
 {% endblock %}
